@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:radio_app/model/radio.dart';
 import 'package:radio_app/util/aicolors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -12,6 +14,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late List<MyRadio> radios;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRadios();
+  }
+
+  fetchRadios() async {
+    final radioJson = await rootBundle.loadString("assets/radio.json");
+    radios = MyRadioList.fromJson(radioJson).radios.cast<MyRadio>();
+    print(radios);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
